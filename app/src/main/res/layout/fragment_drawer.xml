@@ -16,6 +16,25 @@
             android:orientation="vertical"
             >
 
+            <RelativeLayout
+                android:id="@+id/relative_layout_settings"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:background="@drawable/clickable_transparent_white_transparent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sozlamalar"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="72dp"
+                    android:textColor="@color/colorWhite"
+                    />
+
+            </RelativeLayout>
+
 
 
         </LinearLayout>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 
@@ -15,7 +16,7 @@ import dasturchi.uz.kitoblar.fragments.FragmentBookList;
 import dasturchi.uz.kitoblar.fragments.FragmentDrawer;
 import dasturchi.uz.kitoblar.fragments.MyFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     public Stack<MyFragment> fragmentStack;
 
@@ -96,6 +97,10 @@ public class MainActivity extends Activity {
                 fragmentActionBar.hideBackImageView();
             }
         }
+    }
+
+    public void setTitle(String s){
+        fragmentActionBar.setTitle(s);
     }
 
     public void openDrawer(){

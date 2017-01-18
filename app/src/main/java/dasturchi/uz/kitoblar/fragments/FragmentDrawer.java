@@ -29,10 +29,10 @@ public class FragmentDrawer extends MyFragment implements View.OnClickListener {
 
 //        favouritesRelativeLayout = (RelativeLayout) parentView.findViewById(R.id.relative_layout_favourites);
 //        favouritesRelativeLayout.setOnClickListener(this);
-//
-//        settingsRelativeLayout = (RelativeLayout) parentView.findViewById(R.id.relative_layout_settings);
-//        settingsRelativeLayout.setOnClickListener(this);
-//
+
+        settingsRelativeLayout = (RelativeLayout) parentView.findViewById(R.id.relative_layout_settings);
+        settingsRelativeLayout.setOnClickListener(this);
+
 //        aboutRelativeLayout = (RelativeLayout) parentView.findViewById(R.id.relative_layout_about);
 //        aboutRelativeLayout.setOnClickListener(this);
 //
@@ -63,20 +63,9 @@ public class FragmentDrawer extends MyFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-//        if (view == favouritesRelativeLayout) {
-//            FragmentFavourites fragmentFavourites = FragmentFavourites.newInstance();
-//            activity().setFragment(fragmentFavourites, true);
-//        } else if (view == settingsRelativeLayout) {
-//            FragmentSettings fragmentSettings = FragmentSettings.newInstance();
-//            activity().setFragment(fragmentSettings, true);
-//        } else if (view == aboutRelativeLayout) {
-//            FragmentAbout fragmentAbout = FragmentAbout.newInstance();
-//            activity().setFragment(fragmentAbout, true);
-//        } else if (view == advertiseRelativeLayout) {
-//            FragmentAdvertise fragmentAdvertise = FragmentAdvertise.newInstance();
-//            activity().setFragment(fragmentAdvertise, true);
-//        }
+        if (view == settingsRelativeLayout) {
+            activity().setFragment(FragmentSettings.newInstance(), false);
 
-        activity().closeDrawer();
+        }
     }
 }

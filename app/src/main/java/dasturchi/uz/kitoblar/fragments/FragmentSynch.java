@@ -210,7 +210,7 @@ public class FragmentSynch extends MyFragment {
         Dialog dialog;
         TextView progressTextView;
 
-        ArrayList <byte[]> arrayList = new ArrayList<>();
+        ArrayList<byte[]> arrayList = new ArrayList<>();
 
         boolean mustCancel = false;
 
@@ -257,7 +257,7 @@ public class FragmentSynch extends MyFragment {
 
                 for (int i = 1; i <= book.getPagesCount(); i++) {
                     try {
-                        if(mustCancel)
+                        if (mustCancel)
                             return null;
 
                         Response response = Internet.get(book.getContent() + "/" + i + ".html");
@@ -273,10 +273,11 @@ public class FragmentSynch extends MyFragment {
                         i--;
                         e.printStackTrace();
                     }
+
                 }
 
                 //if success
-                if(arrayList.size() == book.getPagesCount()) {
+                if (arrayList.size() == book.getPagesCount()) {
                     MyFile.addBook(activity(), book, arrayList);
 
                     new MyDatabase(activity()).addBook(book);
@@ -303,6 +304,16 @@ public class FragmentSynch extends MyFragment {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             try {
+
+                if(arrayList.size() == book.getPagesCount()){
+                    for(int i= 0;i < books.size();i ++)
+                        if(books.get(i).getId() == book.getId())
+                            books.remove(i);
+                }
+
+                adapter.notifyDataSetChanged();
+
+                dialog.cancel();
 
             } catch (Exception e) {
                 e.printStackTrace();

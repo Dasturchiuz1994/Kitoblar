@@ -19,6 +19,8 @@ public class MyDatabase extends SQLiteOpenHelper {
     static SQLiteDatabase database;
 
     static String TABLE_BOOKS = "books";
+    static String TABLE_SHRIFT = "shrift";
+    static String COLUMN_SHRIFT = "column_shrift";
 
     public MyDatabase(Context context) {
         super(context, "kitoblar", null, 1);
@@ -33,6 +35,13 @@ public class MyDatabase extends SQLiteOpenHelper {
                     Book.IMAGE + " text ," +
                     Book.NAME + " text ," +
                     Book.PAGES_COUNT + " integer " +
+                    ");";
+
+            database.execSQL(sql);
+
+            sql = "create table " + TABLE_SHRIFT + " (" +
+                    COLUMN_SHRIFT + " integer " +
+
                     ");";
 
             database.execSQL(sql);
@@ -53,14 +62,14 @@ public class MyDatabase extends SQLiteOpenHelper {
 
         try {
             database = getWritableDatabase();
-            synchronized (database){
+            synchronized (database) {
 
-                Cursor cursor = database.query(TABLE_BOOKS , null , null , null , null ,null , null);
+                Cursor cursor = database.query(TABLE_BOOKS, null, null, null, null, null, null);
 
-                if(cursor.moveToFirst())
-                    do{
-                        books.add(new Book( cursorToJson(cursor) ));
-                    }while (cursor.moveToNext());
+                if (cursor.moveToFirst())
+                    do {
+                        books.add(new Book(cursorToJson(cursor)));
+                    } while (cursor.moveToNext());
 
             }
         } catch (Exception e) {
@@ -74,19 +83,61 @@ public class MyDatabase extends SQLiteOpenHelper {
     }
 
 
-    public void addBook(Book book){
+    public void addBook(Book book) {
         try {
             database = getWritableDatabase();
-            synchronized (database){
+            synchronized (database) {
 
-                Cursor cursor = database.rawQuery("select * from " + TABLE_BOOKS + " where " + Book.ID + " = " + book.getId() , null);
+                Cursor cursor = database.rawQuery("select * from " + TABLE_BOOKS + " where " + Book.ID + " = " + book.getId(), null);
 
-                if(cursor.moveToFirst())
+                if (cursor.moveToFirst())
                     database.execSQL("delete from " + TABLE_BOOKS + " where " + Book.ID + " = " + book.getId());
 
-                database.insert(TABLE_BOOKS , null , book.getContentValues());
+                database.insert(TABLE_BOOKS, null, book.getContentValues());
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null)
+                database.close();
+        }
+    }
+
+    public int getShrift() {
+
+        try {
+            database = getWritableDatabase();
+            synchronized (database) {
+
+                Cursor cursor = database.query(TABLE_SHRIFT, null, null, null, null, null, null);
+
+                if (cursor.moveToFirst())
+                    return cursor.getInt(cursor.getColumnIndex(COLUMN_SHRIFT));
+
+            }
+        } catch (Exception e) {
+            setShrift(20);
+            e.printStackTrace();
+        } finally {
+            if (database != null)
+                database.close();
+        }
+
+        return 20;
+    }
+
+    public void setShrift(int shrift) {
+
+        try {
+            database = getWritableDatabase();
+            synchronized (database) {
+
+                database.execSQL("delete from " + TABLE_SHRIFT);
+                database.execSQL("insert into " + TABLE_SHRIFT + " values (" + shrift + ")");
+
+            }
+        } catch (Exception e) {
+
             e.printStackTrace();
         } finally {
             if (database != null)

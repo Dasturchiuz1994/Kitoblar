@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import dasturchi.uz.kitoblar.R;
 import dasturchi.uz.kitoblar.database.MyDatabase;
 import dasturchi.uz.kitoblar.functions.Internet;
+import dasturchi.uz.kitoblar.functions.MyFile;
 import dasturchi.uz.kitoblar.objects.Book;
 import dasturchi.uz.kitoblar.objects.Constants;
 import okhttp3.Response;
@@ -73,7 +74,8 @@ public class FragmentBookList extends MyFragment {
 
     @Override
     public void update() {
-
+        books = new ArrayList<>();
+        new GetBooks().execute();
     }
 
     public static FragmentBookList newInstance() {
@@ -146,7 +148,19 @@ public class FragmentBookList extends MyFragment {
         protected Object doInBackground(Object[] objects) {
             try {
                 MyDatabase database = new MyDatabase(activity());
+
                 books.addAll(database.getBooks());
+
+                for(int i = 0;i < books.size();i ++){
+                    if(!MyFile.isHaveBook(activity() , books.get(i))){
+
+//                        new MyDatabase(activity()).removeBook(books.get(i));
+
+                        books.remove(i);
+
+                        i --;
+                    }
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
